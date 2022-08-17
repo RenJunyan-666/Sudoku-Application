@@ -1,17 +1,12 @@
-import { shuffle, isInRow, isInCol } from 'utils'
+import {
+  shuffle,
+  isInRow,
+  isInCol,
+  identifyWorkingSquare,
+  isInSquare,
+  checkGrid,
+} from 'utils'
 import { GRID, NUMBERS } from '../../typings'
-
-const gridExample: GRID = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
 
 const numbers: NUMBERS[] = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -34,14 +29,14 @@ function fillGrid(grid: GRID) {
         //check whether it is duplicated
         if (!isInRow({ grid, row, value })) {
           if (!isInCol({ col, grid, value })) {
-            const square = [
-              [0,0,0],
-              [0,0,0],
-              [0,0,0]
-            ]
-            grid[row][col] = value
-            //check grid if it is full, if yes, stop and return
-            //otherwise we run fillGrid(grid)
+            const square = identifyWorkingSquare({ col, grid, row })
+            if (!isInSquare({ square, value })) {
+              grid[row][col] = value
+              //check grid if it is full, if yes, stop and return
+              if (checkGrid(grid)) return true
+              //otherwise we run fillGrid(grid)
+              else if (fillGrid(grid)) return true
+            }
           }
         }
       }
