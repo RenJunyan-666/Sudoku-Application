@@ -1,18 +1,28 @@
-import React, { FC } from 'react'
-import { createFullGrid } from 'utils'
+import React, { FC, useCallback, useEffect } from 'react'
+import { useDispatch } from 'react-redux'
+import { createGrid } from 'reducers'
+import { AnyAction, Dispatch } from 'redux'
+import { INDEX } from 'typings'
 import Block from './block'
 import { Container, Row } from './styles'
 
 const Grid: FC = () => {
-  const grid = createFullGrid()
-  console.log(grid)
+  const dispatch = useDispatch<Dispatch<AnyAction>>()
+  const create = useCallback(() => dispatch(createGrid()), [dispatch])
+  useEffect(() => {
+    create()
+  }, [create])
 
   return (
     <Container data-cy="grid-container">
       {[...Array(9)].map((_, rowIndex) => (
         <Row data-cy="grid-row-container" key={rowIndex}>
           {[...Array(9)].map((_, colIndex) => (
-            <Block key={colIndex} colIndex={colIndex} rowIndex={rowIndex} />
+            <Block
+              key={colIndex}
+              colIndex={colIndex as INDEX}
+              rowIndex={rowIndex as INDEX}
+            />
           ))}
         </Row>
       ))}

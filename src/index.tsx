@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+import ReactDOM from 'react-dom'
 import { GlobalStyles, theme } from './styles'
 import { ThemeProvider } from 'styled-components'
 import { Content, Title, Card, Grid } from './components'
@@ -8,8 +8,7 @@ import { configureStore } from 'core'
 
 const store = configureStore()
 
-const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement)
-root.render(
+ReactDOM.render(
   <ThemeProvider theme={theme}>
     <GlobalStyles />
     <Provider store={store}>
@@ -20,5 +19,6 @@ root.render(
         </Card>
       </Content>
     </Provider>
-  </ThemeProvider>
+  </ThemeProvider>,
+  document.getElementById('root')
 )
