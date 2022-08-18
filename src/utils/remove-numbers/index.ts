@@ -32,7 +32,7 @@ function removeNumbers(grid:GRID, attempts=5){
         //grid[row][col] = backup
         //decrement attempts
         if(global.counter !== 1){
-            grid: [row][col] = backup;
+            grid[row][col] = backup;
             attempts--
         }
     }
